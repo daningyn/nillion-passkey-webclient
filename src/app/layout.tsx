@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import Header from "@/components/header/Header";
 import { NextUIProvider } from "@nextui-org/system";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+    weight: ['400', '700'],
+    style: ['normal', 'italic'],
+    subsets: ['latin'],
+    display: 'swap',
+})
 
 export const metadata: Metadata = {
     title: "Nillion Passkey Authentication Webapp",
@@ -24,7 +31,7 @@ export default function RootLayout({
             <Head>
                 <link rel="icon" href="https://nillion.com/wp-content/themes/nillion/assets/images/favicon.png" />
             </Head>
-            <body className={inter.className}>
+            <body className={roboto.className}>
                 <NextUIProvider>
                     <NextThemesProvider attribute="class" defaultTheme="dark">
                         <Header />

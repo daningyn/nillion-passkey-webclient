@@ -12,7 +12,6 @@ export default function Header() {
                     alt="Nillion"
                     width={100}
                     height={30}
-                    objectFit="contain"
                 />
                 <div className="header__nav flex flex-row justify-between gap-x-4 items-center">
                     <Link href="/register">
@@ -25,7 +24,7 @@ export default function Header() {
                             Login
                         </Button>
                     </Link>
-                    <ThemeSwitcher />
+                    {/* <ThemeSwitcher /> */}
                 </div>
             </div>
         </div>
