@@ -7,14 +7,14 @@ import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { startRegistration } from '@simplewebauthn/browser';
 import _ from "lodash";
+import { startAuthentication } from "@simplewebauthn/browser";
 
-export default function RegisterPage() {
+export default function Login() {
 
     const [address, setAddress] = useState("");
 
-    const onClickRegister = async () => {
+    const onClickLogin = async () => {
         if (address.substring(0, 7) !== 'nillion') {
             toast.error("Invalid Nillion address");
             return
@@ -24,14 +24,14 @@ export default function RegisterPage() {
             let credential;
             try {
 
-                const { challengeOptions } = (await axios.post(API.REGISTRATION_CHALLENGE, { address })).data;
+                const { challengeOptions } = (await axios.post(API.LOGIN_CHALLENGE, { address })).data;
 
-                credential = await startRegistration(challengeOptions) as any;
+                credential = await startAuthentication(challengeOptions) as any;
 
             } catch (error: any) {
                 switch (error.name) {
                     case 'InvalidStateError':
-                        throw new Error('Error: Authenticator was probably already registered by user');
+                        throw new Error('Error: Authenticator was probably already registered by another user');
                     case 'NotAllowedError':
                         throw new Error('Error: Authenticator is a must for registration');
                     default:
@@ -43,7 +43,9 @@ export default function RegisterPage() {
                 throw new Error('Cannot create credential');
             }
 
-            const verifyResponse = (await axios.post(API.REGISTRATION_VERIFY, { attestationResponse: credential, address })).data;
+            console.log(credential);
+
+            const verifyResponse = (await axios.post(API.LOGIN_VERIFY, { attestationResponse: credential, address })).data;
             if (verifyResponse.success) {
                 toast.success('Register successfully!');
             }
@@ -78,12 +80,12 @@ export default function RegisterPage() {
                 />
                 <div className="nav flex flex-col gap-y-4">
                     <Button className="w-full rounded-lg p-[26px] text-xl bg-white text-blue-700"
-                        onClick={onClickRegister}
+                        onClick={onClickLogin}
                     >
-                        Register
+                        Login
                     </Button>
                     <span className="text-lg text-center text-white">
-                        If you already have an account, please <Link className="underline text-primary-800 font-bold" href="/login">Login</Link>
+                        If you have not had an account yet, please <Link className="underline text-primary-800 font-bold" href="/register">Register</Link>
                     </span>
                 </div>
             </div>
