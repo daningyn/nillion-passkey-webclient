@@ -4,10 +4,8 @@ import "./globals.css";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import Header from "@/components/header/Header";
-import { NextUIProvider } from "@nextui-org/system";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
+import Providers from "./providers";
 
 const roboto = Roboto({
     weight: ['400', '700'],
@@ -32,24 +30,22 @@ export default function RootLayout({
                 <link rel="icon" href="https://nillion.com/wp-content/themes/nillion/assets/images/favicon.png" />
             </Head>
             <body className={roboto.className}>
-                <NextUIProvider>
-                    <NextThemesProvider attribute="class" defaultTheme="dark">
-                        <Header />
-                        <ToastContainer
-                            position='top-right'
-                            autoClose={3000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            draggable
-                            pauseOnHover={false}
-                            pauseOnFocusLoss={false}
-                            theme='light'
-                        />
-                        {children}
-                    </NextThemesProvider>
-                </NextUIProvider>
+                <Providers>
+                    <Header />
+                    <ToastContainer
+                        position='top-right'
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        draggable
+                        pauseOnHover={false}
+                        pauseOnFocusLoss={false}
+                        theme='light'
+                    />
+                    {children}
+                </Providers>
             </body>
         </html>
     );
