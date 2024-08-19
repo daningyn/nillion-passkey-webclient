@@ -53,7 +53,7 @@ export default function Login() {
             const verifyResponse = (await axios.post(API.LOGIN_VERIFY, { attestationResponse: credential, address })).data;
 
             if (verifyResponse.success) {
-                toast.success('Register successfully!');
+                toast.success('Login successfully!');
                 const jwt = _.get(verifyResponse, 'results.jwt', '');
                 localStorage.setItem('jwt', jwt);
                 dispath(setUser(verifyResponse.results));
